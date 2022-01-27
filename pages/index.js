@@ -1,37 +1,10 @@
-import { Box, Button, Text, TextField, Image } from '@skynexui/components';
-import appConfig from '../config.json';
-
-function GlobalStyle() {
-  return (
-    <style global jsx>{`
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        list-style: none;
-      }
-      body {
-        font-family: 'Open Sans', sans-serif;
-      }
-      /* App fit Height */ 
-      html, body, #__next {
-        min-height: 100vh;
-        display: flex;
-        flex: 1;
-      }
-      #__next {
-        flex: 1;
-      }
-      #__next > * {
-        flex: 1;
-      }
-      /* ./App fit Height */ 
-    `}</style>
-  );
-}
+import { Box, Button, Text, TextField, Image } from '@skynexui/components'
+import React from 'react'
+import { useRouter } from 'next/router'
+import appConfig from '../config.json'
 
 function Titulo(props) {
-  const Tag = props.tag || 'h1';
+  const Tag = props.tag || 'h1'
   return (
     <>
       <Tag>{props.children}</Tag>
@@ -43,34 +16,23 @@ function Titulo(props) {
             }
             `}</style>
     </>
-  );
+  )
 }
 
-// Componente React
-// function HomePage() {
-//     // JSX
-//     return (
-//         <div>
-//             <GlobalStyle />
-//             <Titulo tag="h2">Boas vindas de volta!</Titulo>
-//             <h2>Discord - Alura Matrix</h2>
-//         </div>
-//     )
-// }
-// export default HomePage
-
 export default function PaginaInicial() {
-  const username = 'hellenizolan';
+  const roteamento = useRouter()
+  const [username, setUsername] = React.useState('')
+  const [backgroundImage] = React.useState('https://lh3.googleusercontent.com/HF_NaV3x87fA705Njcjznz-jBU5Aia8z6kk-kcmFT_9woP9UmpCR26TZi_VMmKdIdPSVf8u8gFToRZ7fDn2UMfQxOFPDgQZFAnEFEebC')
+  const [placeholder] = React.useState('https://pbs.twimg.com/profile_images/794107415876747264/g5fWe6Oh_400x400.jpg')
 
   return (
     <>
-      <GlobalStyle />
       <Box
         styleSheet={{
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          backgroundColor: appConfig.theme.colors.secondary[500],
-          backgroundImage: 'url(https://thumbs.dreamstime.com/b/c%C3%B3digo-bin%C3%A1rio-digital-em-segundo-plano-do-data-center-wallpaper-panor%C3%A2mico-de-tecnologia-para-sua-empresa-179108000.jpg)',
-          backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundBlendMode: 'multiply',
+          backgroundColor: appConfig.theme.colors.neutrals[300],
+          backgroundImage: `url(${backgroundImage})`,
+          backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundBlendMode: 'multiply',          
         }}
       >
         <Box
@@ -86,11 +48,17 @@ export default function PaginaInicial() {
             borderRadius: '5px', padding: '32px', margin: '16px',
             boxShadow: '0 2px 10px 0 rgb(0 0 0 / 20%)',
             backgroundColor: appConfig.theme.colors.neutrals[700],
+            opacity: 0.85
           }}
         >
           {/* Formulário */}
           <Box
             as="form"
+            onSubmit={function (event) {
+              event.preventDefault()
+              roteamento.push('/chat')
+              
+            }}
             styleSheet={{
               display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
               width: { xs: '100%', sm: '50%' }, textAlign: 'center', marginBottom: '32px',
@@ -98,10 +66,14 @@ export default function PaginaInicial() {
           >
             <Titulo tag="h2">Boas vindas de volta!</Titulo>
             <Text variant="body3" styleSheet={{ marginBottom: '32px', color: appConfig.theme.colors.neutrals[300] }}>
-              {appConfig.name}
+              {appConfig.name} {username}
             </Text>
 
             <TextField
+              value={username}
+              onChange={function (event) {
+                setUsername(event.target.value)
+              }}
               fullWidth
               textFieldColors={{
                 neutral: {
@@ -147,8 +119,9 @@ export default function PaginaInicial() {
               styleSheet={{
                 borderRadius: '50%',
                 marginBottom: '16px',
+                opacity: username ? 1 : 0.8
               }}
-              src={`https://github.com/${username}.png`}
+              src={ username ? `https://github.com/${username}.png` : placeholder}
             />
             <Text
               variant="body4"
@@ -166,5 +139,5 @@ export default function PaginaInicial() {
         </Box>
       </Box>
     </>
-  );
+  )
 }
