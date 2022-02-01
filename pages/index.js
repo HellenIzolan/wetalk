@@ -20,11 +20,11 @@ function Titulo(props) {
 }
 
 export default function PaginaInicial() {
-  const roteamento = useRouter()
+  const roteamento = useRouter()  
+  const [backgroundImage] = React.useState('background.png')  
+  const [placeholder] = React.useState('placeholder.jpg')
   const [username, setUsername] = React.useState('')
-  const [backgroundImage] = React.useState('https://lh3.googleusercontent.com/HF_NaV3x87fA705Njcjznz-jBU5Aia8z6kk-kcmFT_9woP9UmpCR26TZi_VMmKdIdPSVf8u8gFToRZ7fDn2UMfQxOFPDgQZFAnEFEebC')
-  const [placeholder] = React.useState('https://pbs.twimg.com/profile_images/794107415876747264/g5fWe6Oh_400x400.jpg')
-
+  
   return (
     <>
       <Box
